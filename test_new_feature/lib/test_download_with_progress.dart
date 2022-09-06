@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
-const imgUrl = "push your url here";
+const imgUrl = "input download link here";
 var dio = Dio();
 
 class TestDownloadWithProgress extends StatefulWidget {
@@ -21,14 +21,6 @@ class TestDownloadWithProgress extends StatefulWidget {
 }
 
 class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   Future download2(Dio dio, String url, String savePath) async {
     try {
       Response response = await dio.get(
@@ -48,6 +40,7 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
       // response.data is List<int> type
       raf.writeFromSync(response.data);
       await raf.close();
+      print(file);
     } catch (e) {
       print(e);
     }
@@ -76,8 +69,10 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
             Text('$_progress %'),
             RaisedButton.icon(
               onPressed: () async {
-                var tempDir = await getTemporaryDirectory();
-                String fullPath = tempDir.path + "/boo2.pdf'";
+                // var tempDir = await getApplicationDocumentsDirectory();
+                final dirPath = await FilePicker.platform.getDirectoryPath();
+                if (dirPath == null) return;
+                String fullPath = dirPath + "/book.pdf";
                 print('full path $fullPath');
 
                 download2(dio, imgUrl, fullPath);
@@ -88,22 +83,23 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
               ),
               color: Colors.green,
               textColor: Colors.white,
-              label: const Text('Dowload Invoice'),
+              label: const Text('Choose folder and start dowload'),
             ),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.bodyText1,
+            TextButton(
+              onPressed: () async {
+                final result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowMultiple: false,
+                  allowedExtensions: [
+                    'zip',
+                    'pdf',
+                  ],
+                );
+              },
+              child: const Text('Get zip files'),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
