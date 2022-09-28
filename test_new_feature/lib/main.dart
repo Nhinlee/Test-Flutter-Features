@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_new_feature/test_download_with_progress.dart';
+import 'package:test_new_feature/test_paint.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TestDownloadWithProgress(
-        title: 'test',
-      ),
+      home: const TestPaint(),
     );
   }
 }

@@ -39,6 +39,11 @@ dependencies:
   dio: ^4.0.6
   path_provider: ^2.0.11
   file_picker: ^4.6.1
+  permission_handler: ^9.0.2
+  external_path: ^1.0.1
+  flutter_file_downloader: ^1.1.0+1
+  flutter_downloader: ^1.7.4
+  device_info_plus: ^4.0.0
 
 dev_dependencies:
   flutter_test:

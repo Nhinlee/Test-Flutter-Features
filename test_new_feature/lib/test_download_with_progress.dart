@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-const imgUrl = "input download link here";
+const imgUrl =
+    "https://storage.googleapis.com/stag-manabie-backend/user-upload/Head%20First%20Design%20Patterns01GC8EACN8818KT9ANCAS4NJYN.pdf";
 var dio = Dio();
 
 class TestDownloadWithProgress extends StatefulWidget {
@@ -36,6 +38,7 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
       );
       print(response.headers);
       File file = File(savePath);
+      // await file.create(recursive: true);
       var raf = file.openSync(mode: FileMode.write);
       // response.data is List<int> type
       raf.writeFromSync(response.data);
@@ -69,13 +72,24 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
             Text('$_progress %'),
             RaisedButton.icon(
               onPressed: () async {
-                // var tempDir = await getApplicationDocumentsDirectory();
-                final dirPath = await FilePicker.platform.getDirectoryPath();
-                if (dirPath == null) return;
-                String fullPath = dirPath + "/book.pdf";
-                print('full path $fullPath');
+                final downloadPath =
+                    await ExternalPath.getExternalStoragePublicDirectory(
+                  ExternalPath.DIRECTORY_DOWNLOADS,
+                );
+                print(downloadPath);
+                //
+                // if (await Permission.manageExternalStorage
+                //     .request()
+                //     .isGranted) {
+                // final dirPath = await FilePicker.platform
+                //     .getDirectoryPath(initialDirectory: './Download');
+                // print(dirPath);
+                // if (dirPath == null) return;
+                String fullPath = downloadPath + "/book.pdf";
+                // print('full path $fullPath');
 
                 download2(dio, imgUrl, fullPath);
+                // }
               },
               icon: const Icon(
                 Icons.file_download,
