@@ -70,7 +70,7 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('$_progress %'),
-            RaisedButton.icon(
+            IconButton(
               onPressed: () async {
                 final downloadPath =
                     await ExternalPath.getExternalStoragePublicDirectory(
@@ -96,8 +96,6 @@ class _TestDownloadWithProgressState extends State<TestDownloadWithProgress> {
                 color: Colors.white,
               ),
               color: Colors.green,
-              textColor: Colors.white,
-              label: const Text('Choose folder and start dowload'),
             ),
             TextButton(
               onPressed: () async {

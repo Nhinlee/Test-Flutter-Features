@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_new_feature/test_paint.dart';
+import 'package:test_new_feature/test_flutter_reorderable_list_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TestPaint(),
+      home: const TestFlutterReorderableListView(),
     );
   }
 }

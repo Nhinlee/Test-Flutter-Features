@@ -12,10 +12,25 @@ class TestFlutterReorderableListView extends StatefulWidget {
 class _TestFlutterReorderableListViewState
     extends State<TestFlutterReorderableListView> {
   final List<int> _items = List<int>.generate(50, (int index) => index);
+  final ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        controller: controller,
+        child: Column(
+          children: [
+            _buildReorderableList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildReorderableList() {
     return ReorderableListView(
+      scrollController: controller,
       header: const Text(
         'ReorderableListView',
         style: TextStyle(
@@ -47,6 +62,7 @@ class _TestFlutterReorderableListViewState
         });
       },
       buildDefaultDragHandles: false,
+      shrinkWrap: true,
       proxyDecorator: (child, index, animation) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
