@@ -44,6 +44,8 @@ dependencies:
   flutter_file_downloader: ^1.1.0+1
   flutter_downloader: ^1.7.4
   device_info_plus: ^4.0.0
+  redux: ^5.0.0
+  flutter_redux: ^0.8.2
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:test_new_feature/widgets/choice_item.dart';
 
 class TestFlutterReorderableListView extends StatefulWidget {
@@ -43,23 +44,28 @@ It is a long established fact that a reader will be distracted by the readable c
               ),
             ),
           ),
-          SliverReorderableList(
-            itemBuilder: (context, index) {
-              return ReorderableDragStartListener(
-                index: index,
-                key: Key('Answer item: $index'),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: ChoiceItem(
+          StoreConnector<int, int>(
+            converter: (store) => 1,
+            builder: (context, vm) {
+              return SliverReorderableList(
+                itemBuilder: (context, index) {
+                  return ReorderableDragStartListener(
                     index: index,
-                    text: 'Answer item: ${_items[index]}',
-                  ),
-                ),
+                    key: Key('Answer item: $index'),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: ChoiceItem(
+                        index: index,
+                        text: 'Answer item: ${_items[index]}',
+                      ),
+                    ),
+                  );
+                },
+                itemCount: _items.length,
+                onReorder: _onReorder,
+                proxyDecorator: _proxyDecorator,
               );
             },
-            itemCount: _items.length,
-            onReorder: _onReorder,
-            proxyDecorator: _proxyDecorator,
           )
         ],
       ),
