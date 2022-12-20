@@ -46,6 +46,7 @@ dependencies:
   device_info_plus: ^4.0.0
   redux: ^5.0.0
   flutter_redux: ^0.8.2
+  local_auth: ^2.1.2
 
 dev_dependencies:
   flutter_test:
