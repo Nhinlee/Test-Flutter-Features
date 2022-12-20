@@ -40,9 +40,9 @@ dependencies:
   path_provider: ^2.0.11
   file_picker: ^4.6.1
   permission_handler: ^9.0.2
-  external_path: ^1.0.1
+  external_path: ^1.0.3
   flutter_file_downloader: ^1.1.0+1
-  flutter_downloader: ^1.7.4
+  flutter_downloader: ^1.9.1
   device_info_plus: ^4.0.0
   redux: ^5.0.0
   flutter_redux: ^0.8.2
