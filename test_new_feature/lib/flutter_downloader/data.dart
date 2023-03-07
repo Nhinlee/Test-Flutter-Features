@@ -3,7 +3,7 @@ const downloadURL =
 
 class DownloadItems {
   static const zipFiles = [
-    DownloadItem(name: 'Zip 1', url: downloadURL),
+    DownloadItem(name: 'Zip 1.zip', url: downloadURL),
     DownloadItem(name: 'Zip 2', url: downloadURL),
     DownloadItem(name: 'Zip 3', url: downloadURL),
     DownloadItem(name: 'Zip 4', url: downloadURL),
@@ -17,7 +17,7 @@ class DownloadItems {
 
   static const images = [
     DownloadItem(
-      name: 'Arches National Park',
+      name: 'Arches National Park.jpg',
       url:
           'https://upload.wikimedia.org/wikipedia/commons/6/60/The_Organ_at_Arches_National_Park_Utah_Corrected.jpg',
     ),

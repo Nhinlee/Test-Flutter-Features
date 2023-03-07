@@ -1,6 +1,5 @@
-import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 class SingleDownloadScreen extends StatefulWidget {
   const SingleDownloadScreen({Key? key}) : super(key: key);
@@ -15,8 +14,7 @@ class _SingleDownloadScreenState extends State<SingleDownloadScreen> {
   final TextEditingController name = TextEditingController();
   final TextEditingController url = TextEditingController(
     text:
-        // 'http://www.africau.edu/images/default/sample.pdf',
-        'https://storage.googleapis.com/stag-manabie-backend/user-upload/30MB.bin01GEDXQK7GE59DH4YC77VBV56C.zip',
+        'https://storage.googleapis.com/stag-manabie-backend/user-upload/30MB.bin01GDYXD8E7EMHE541K19XC9T51.zip',
   );
 
   @override
@@ -48,33 +46,30 @@ class _SingleDownloadScreenState extends State<SingleDownloadScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
                 onPressed: () async {
-                  // FileDownloader.downloadFile(
-                  //     url: url.text.trim(),
-                  //     name: name.text.trim(),
-                  //     onProgress: (name, progress) {
-                  //       setState(() {
-                  //         _progress = progress;
-                  //         _status = 'Progress: $progress%';
-                  //       });
-                  //     },
-                  //     onDownloadCompleted: (path) {
-                  //       setState(() {
-                  //         _progress = null;
-                  //         _status = 'File downloaded to: $path';
-                  //       });
-                  //     },
-                  //     onDownloadError: (error) {
-                  //       setState(() {
-                  //         _progress = null;
-                  //         _status = 'Download error: $error';
-                  //       });
-                  //     }).then((file) {
-                  //   debugPrint('file path: ${file?.path}');
-                  // });
-                  final anchor = html.AnchorElement(href: url.text);
-                  anchor.download = "abc.zip";
-
-                  anchor.click();
+                  FileDownloader.downloadFile(
+                    url: url.text.trim(),
+                    name: name.text.trim(),
+                    onProgress: (name, progress) {
+                      setState(() {
+                        _progress = progress;
+                        _status = 'Progress: $progress%';
+                      });
+                    },
+                    onDownloadCompleted: (path) {
+                      setState(() {
+                        _progress = null;
+                        _status = 'File downloaded to: $path';
+                      });
+                    },
+                    onDownloadError: (error) {
+                      setState(() {
+                        _progress = null;
+                        _status = 'Download error: $error';
+                      });
+                    },
+                  ).then((file) {
+                    debugPrint('file path: ${file?.path}');
+                  });
                 },
                 child: const Text('Download')),
           ],

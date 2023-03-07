@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -11,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'data.dart';
 import 'download_list_item.dart';
+import 'file_name_extension.dart';
 
 class MyHomePage extends StatefulWidget with WidgetsBindingObserver {
   const MyHomePage({
@@ -199,13 +201,48 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _requestDownload(TaskInfo task) async {
-    task.taskId = await FlutterDownloader.enqueue(
-      url: task.link!,
-      savedDir: _localPath,
-      fileName: task.name,
-      saveInPublicStorage: true,
-      showNotification: false,
-    );
+    final deviceInfo = await DeviceInfoPlugin().androidInfo;
+    final sdkVersion = deviceInfo.version.sdkInt;
+    if (sdkVersion! >= 29) {
+      task.taskId = await FlutterDownloader.enqueue(
+        url: task.link!,
+        savedDir: _localPath,
+        fileName: task.name,
+        saveInPublicStorage: true,
+        showNotification: false,
+      );
+      // //You can download a single file
+      // FileDownloader.downloadFile(
+      //     url:task.link!,
+      //     name: task.name!,
+      //     onProgress: (fileName, progress) {
+      //       print('FILE PROGRESS TO : $progress');
+      //     },
+      //     onDownloadCompleted: (String path) {
+      //       print('FILE DOWNLOADED TO PATH: $path');
+      //     },
+      //     onDownloadError: (String error) {
+      //       print('DOWNLOAD ERROR: $error');
+      //     });
+    } else {
+      final response = await Dio().get(
+        task.link!,
+        options: Options(responseType: ResponseType.bytes),
+        onReceiveProgress: (count, total) {
+          print("${count / total * 100}%");
+        },
+      );
+
+      final filePath = FileNameExtension.namePlus(
+        _localPath,
+        "${task.name}.zip",
+        format: '(d)',
+        space: true,
+      );
+      final file = File(filePath);
+
+      file.writeAsBytesSync(response.data);
+    }
   }
 
   Future<void> _pauseDownload(TaskInfo task) async {
@@ -364,6 +401,7 @@ class _MyHomePageState extends State<MyHomePage> {
       externalStorageDirPath =
           (await getApplicationDocumentsDirectory()).absolute.path;
     }
+    print("application document directory: $externalStorageDirPath");
     return externalStorageDirPath;
   }
 

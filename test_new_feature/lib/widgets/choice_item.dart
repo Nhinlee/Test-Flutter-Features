@@ -41,9 +41,13 @@ class ChoiceItem extends StatelessWidget {
             Expanded(
               child: Text(text),
             ),
-            Icon(
-              Icons.do_not_disturb_on_total_silence,
-              color: active ? const Color(0XFF395AD2) : Colors.grey,
+            ReorderableDragStartListener(
+              index: index,
+              child: Image.asset(
+                './assets/ic_drag.png',
+                color: active ? const Color(0XFF395AD2) : Colors.grey,
+                width: 30,
+              ),
             ),
           ],
         ),
