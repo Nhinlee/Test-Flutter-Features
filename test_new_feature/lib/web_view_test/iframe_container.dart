@@ -5,26 +5,35 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(
       const MaterialApp(
-        home: IframeContainer(),
+        home: LearnosityQuizContainer(
+          learnosityUrl: 'http://localhost:3000/',
+        ),
       ),
     );
 
-class IframeContainer extends StatefulWidget {
-  const IframeContainer({Key? key}) : super(key: key);
+class LearnosityQuizContainer extends StatefulWidget {
+  const LearnosityQuizContainer({
+    Key? key,
+    required this.learnosityUrl,
+    this.onFinishQuizTest,
+  }) : super(key: key);
+
+  final String learnosityUrl;
+  final Function()? onFinishQuizTest;
 
   @override
-  State<IframeContainer> createState() => _IframeContainerState();
+  State<LearnosityQuizContainer> createState() =>
+      _LearnosityQuizContainerState();
 }
 
-class _IframeContainerState extends State<IframeContainer> {
+class _LearnosityQuizContainerState extends State<LearnosityQuizContainer> {
+  final _iframeElement = IFrameElement();
+
   @override
   void initState() {
     super.initState();
 
-    final _iframeElement = IFrameElement();
-    _iframeElement.height = '500';
-    _iframeElement.width = '500';
-    _iframeElement.src = 'https://flutter.dev/';
+    _iframeElement.src = widget.learnosityUrl;
     _iframeElement.style.border = 'none';
     // _iframeElement.addEventListener(
     //   'window',
@@ -40,13 +49,7 @@ class _IframeContainerState extends State<IframeContainer> {
     );
 
     window.addEventListener("message", eventListener);
-  }
-
-  void eventListener(Event event) {
-    final messageEvent = event as MessageEvent;
-    print('>>>> ${messageEvent.data}');
-    print('>>>> ${messageEvent.origin}');
-    // …
+    // window.onMessage.forEach(eventListener);
   }
 
   @override
@@ -55,23 +58,28 @@ class _IframeContainerState extends State<IframeContainer> {
     super.dispose();
   }
 
+  void eventListener(Event event) {
+    final messageEvent = event as MessageEvent;
+    print('>>>> ${messageEvent.data}');
+    print('>>>> ${messageEvent.origin}');
+
+    widget.onFinishQuizTest?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Row(
-          children: [
-            Container(
-              width: 120,
-              decoration: const BoxDecoration(color: Colors.blue),
-            ),
-            Expanded(
-              child: HtmlElementView(
-                key: UniqueKey(),
-                viewType: 'iframeElement',
-              ),
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        _iframeElement.contentWindow?.postMessage(
+          'saveAssessmentProgress',
+          '*',
+        );
+        return false;
+      },
+      child: Scaffold(
+        body: HtmlElementView(
+          key: UniqueKey(),
+          viewType: 'iframeElement',
         ),
       ),
     );

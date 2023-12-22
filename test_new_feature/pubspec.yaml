@@ -49,8 +49,8 @@ dependencies:
   local_auth: ^2.1.2
   simple_downloader: ^0.0.3+1
   fl_downloader: ^1.1.1
-  webview_flutter: ^4.0.6
-  flutter_inappwebview: ^5.7.2+3
+  webview_flutter: ^4.4.1
+  webviewx_plus: ^0.3.3
 
 dev_dependencies:
   flutter_test:

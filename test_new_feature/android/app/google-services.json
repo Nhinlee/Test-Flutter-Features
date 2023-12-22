@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "637122602296",
+    "project_id": "test-project-578f3",
+    "storage_bucket": "test-project-578f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637122602296:android:da416f7c56712bf7628dcd",
+        "android_client_info": {
+          "package_name": "com.manabie.example.test_new_feature"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637122602296-n90rt8bcjpgsco4hqm5ih41jntt62kf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7HWFguNhMjgtGwZpDznUDqo8XHOIgSJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637122602296-n90rt8bcjpgsco4hqm5ih41jntt62kf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
